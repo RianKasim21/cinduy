@@ -183,7 +183,6 @@ width:90px;
 height:90px;
 position:absolute;
 cursor:grab;
-touch-action:none;
 }
 
 .crank:active{
@@ -395,9 +394,7 @@ const cy=rect.top+rect.height/2;
 return Math.atan2(y-cy,x-cx)*(180/Math.PI);
 }
 
-// MOUSE EVENTS
 crank.addEventListener("mousedown",e=>{
-e.preventDefault();
 isDragging=true;
 lastAngle=getAngle(e.clientX,e.clientY,crank);
 lastTime=Date.now();
@@ -406,36 +403,8 @@ lastMoveTime=Date.now();
 
 document.addEventListener("mousemove",e=>{
 if(!isDragging)return;
-handleMove(e.clientX, e.clientY);
-});
 
-document.addEventListener("mouseup",()=>{
-isDragging=false;
-});
-
-// TOUCH EVENTS (untuk mobile)
-crank.addEventListener("touchstart",e=>{
-e.preventDefault();
-isDragging=true;
-const touch = e.touches[0];
-lastAngle=getAngle(touch.clientX,touch.clientY,crank);
-lastTime=Date.now();
-lastMoveTime=Date.now();
-});
-
-document.addEventListener("touchmove",e=>{
-if(!isDragging)return;
-const touch = e.touches[0];
-handleMove(touch.clientX, touch.clientY);
-});
-
-document.addEventListener("touchend",()=>{
-isDragging=false;
-});
-
-// Fungsi untuk handle pergerakan (dipakai mouse & touch)
-function handleMove(clientX, clientY) {
-const currentAngle=getAngle(clientX, clientY, crank);
+const currentAngle=getAngle(e.clientX,e.clientY,crank);
 const now=Date.now();
 
 let angleDiff=currentAngle-lastAngle;
@@ -462,7 +431,11 @@ audioPlayer.play().catch(()=>{});
 lastAngle=currentAngle;
 lastTime=now;
 lastMoveTime=now;
-}
+});
+
+document.addEventListener("mouseup",()=>{
+isDragging=false;
+});
 
 setInterval(()=>{
 if(!audioPlayer.paused){
@@ -473,6 +446,7 @@ audioPlayer.pause();
 },200);
 
 audioPlayer.addEventListener("ended",()=>{
+statusText.innerHTML="oh iya ini ada video buat kamu juga</p>   <a href=\"https://www.instagram.com/reel/DTxbITIiZBf/?igsh=dnQ4dWJnZGF3eDk=\">ini link nya xixi</a><br>";
 statusText.innerHTML="Putar lagi untuk mendengar 💕";
 });
 </script>
