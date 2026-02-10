@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine Voice Memory 💕</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+background:linear-gradient(135deg,#ff6b9d 0%,#c44569 50%,#fc5c65 100%);
+min-height:100vh;
+overflow-x:hidden;
+overflow-y:auto;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:40px 15px;
+position:relative;
+}
+
+
+body::before{
+content:'💕';
+position:fixed;
+font-size:60px;
+opacity:.08;
+top:10%;
+left:10%;
+animation:float 6s ease-in-out infinite;
+}
+
+body::after{
+content:'❤️';
+position:fixed;
+font-size:50px;
+opacity:.08;
+top:70%;
+right:15%;
+animation:float 8s ease-in-out infinite;
+}
+
+@keyframes float{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-20px)}
+}
+
+
+.menu-screen{
+text-align:center;
+color:#fff;
+max-width:500px;
+width:100%;
+}
+
+.menu-screen h1{
+font-size:48px;
+margin-bottom:20px;
+text-shadow:0 4px 10px rgba(0,0,0,.3);
+}
+
+.menu-screen .question{
+font-size:24px;
+margin-bottom:40px;
+text-shadow:0 2px 5px rgba(0,0,0,.2);
+}
+
+.button-container{
+display:flex;
+gap:20px;
+justify-content:center;
+align-items:center;
+}
+
+.btn{
+padding:15px 40px;
+font-size:20px;
+border:none;
+border-radius:50px;
+cursor:pointer;
+transition:all .3s ease;
+font-weight:bold;
+box-shadow:0 8px 20px rgba(0,0,0,.3);
+}
+
+.btn-yes{
+background:linear-gradient(135deg,#4ade80,#22c55e);
+color:#fff;
+}
+
+.btn-yes:hover{
+transform:scale(1.1);
+box-shadow:0 12px 30px rgba(34,197,94,.5);
+}
+
+.btn-no{
+background:linear-gradient(135deg,#f87171,#ef4444);
+color:#fff;
+}
+
+
+.phone-container{
+width:100%;
+max-width:500px;
+background:linear-gradient(135deg,#ffe6f0,#ffd1dc);
+border-radius:40px;
+padding:20px;
+box-shadow:0 25px 70px rgba(255,105,180,.4);
+margin-bottom:60px;
+display:none;
+}
+
+.screen{
+background:#fff;
+border-radius:30px;
+overflow:hidden;
+}
+
+.header{
+background:linear-gradient(135deg,#ff6b9d,#ff1493);
+color:#fff;
+padding:15px 20px;
+display:flex;
+gap:15px;
+align-items:center;
+}
+
+.header-title h3{
+font-size:16px;
+}
+
+.content{
+padding:20px;
+background:linear-gradient(135deg,#ffe6f0,#fff0f5);
+min-height:500px;
+}
+
+.message-bubble{
+background:#fff;
+border-radius:20px;
+padding:15px;
+box-shadow:0 8px 20px rgba(255,105,180,.2);
+}
+
+.image-container img{
+width:100%;
+border-radius:15px;
+margin-bottom:15px;
+}
+
+
+.voice-note{
+margin-top:15px;
+background:#fff;
+padding:20px;
+border-radius:20px;
+box-shadow:0 8px 20px rgba(255,105,180,.2);
+}
+
+.crank-container{
+width:90px;
+height:90px;
+margin:auto;
+position:relative;
+}
+
+.gramophone-body{
+width:90px;
+height:90px;
+border-radius:50%;
+background:linear-gradient(135deg,#ff6b9d,#ff1493);
+position:absolute;
+}
+
+.crank{
+width:90px;
+height:90px;
+position:absolute;
+cursor:grab;
+}
+
+.crank:active{
+cursor:grabbing;
+}
+
+.crank-handle{
+width:8px;
+height:40px;
+background:#fff;
+position:absolute;
+top:5px;
+left:50%;
+transform:translateX(-50%);
+border-radius:4px;
+}
+
+.waveform{
+display:flex;
+gap:2px;
+margin-top:20px;
+height:50px;
+}
+
+.wave-bar{
+flex:1;
+background:#ffc0cb;
+border-radius:3px;
+}
+
+.wave-bar.active{
+background:#ff1493;
+}
+
+.controls{
+margin-top:15px;
+text-align:center;
+font-size:14px;
+color:#ff1493;
+}
+
+.hidden{
+display:none!important;
+}
+
+@media(max-width:480px){
+.phone-container{
+border-radius:0;
+padding:0;
+}
+.screen{
+border-radius:0;
+}
+.menu-screen h1{
+font-size:36px;
+}
+.menu-screen .question{
+font-size:20px;
+}
+.btn{
+padding:12px 30px;
+font-size:18px;
+}
+}
+</style>
+</head>
+
+<body>
+
+
+<div class="menu-screen" id="menuScreen">
+<h1>💕 Valentine Special 💕</h1>
+<p class="question">Mau dengar pesan spesial dariku?</p>
+<div class="button-container" id="buttonContainer">
+<button class="btn btn-yes" id="btnYes">Yes 💖</button>
+<button class="btn btn-no" id="btnNo">No</button>
+</div>
+</div>
+
+
+<div class="phone-container" id="mainContent">
+<div class="screen">
+
+<div class="header">
+<div class="header-title">
+<h3>Valentine Memory 💕</h3>
+<p>Voice of Love</p>
+</div>
+</div>
+
+<div class="content">
+<div class="message-bubble">
+
+<div class="image-container">
+<img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=600">
+</div>
+
+<div class="voice-note">
+
+<div class="crank-container">
+<div class="gramophone-body"></div>
+<div class="crank" id="crank">
+<div class="crank-handle"></div>
+</div>
+</div>
+
+<div class="waveform" id="waveform"></div>
+
+<div class="controls" id="statusText">
+ <p>oh iya ini ada video buat kamu juga</p>   <a href="https://www.instagram.com/reel/DTxbITIiZBf/?igsh=dnQ4dWJnZGF3eDk=">ini link nya xixi</a><br>
+putar engkol untuk memutar 💕
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<audio id="audioPlayer" src="lagu1.m4a"></audio>
+
+<script>
+
+const menuScreen = document.getElementById("menuScreen");
+const mainContent = document.getElementById("mainContent");
+const btnYes = document.getElementById("btnYes");
+const btnNo = document.getElementById("btnNo");
+const buttonContainer = document.getElementById("buttonContainer");
+
+btnYes.addEventListener("click", () => {
+menuScreen.classList.add("hidden");
+mainContent.style.display = "block";
+});
+
+btnNo.addEventListener("mouseover", () => {
+
+const maxX = window.innerWidth - btnNo.offsetWidth - 40;
+const maxY = window.innerHeight - btnNo.offsetHeight - 40;
+
+const randomX = Math.random() * maxX;
+const randomY = Math.random() * maxY;
+  
+
+btnNo.style.position = "fixed";
+btnNo.style.left = randomX + "px";
+btnNo.style.top = randomY + "px";
+});
+
+btnNo.addEventListener("click", () => {
+
+const maxX = window.innerWidth - btnNo.offsetWidth - 40;
+const maxY = window.innerHeight - btnNo.offsetHeight - 40;
+  
+const randomX = Math.random() * maxX;
+const randomY = Math.random() * maxY;
+  
+btnNo.style.position = "fixed";
+btnNo.style.left = randomX + "px";
+btnNo.style.top = randomY + "px";
+});
+
+
+const audioPlayer=document.getElementById("audioPlayer");
+const crank=document.getElementById("crank");
+const waveform=document.getElementById("waveform");
+const statusText=document.getElementById("statusText");
+
+let totalBars = 40;
+let totalDuration = 0;
+let isDragging = false;
+let rotation = 0;
+let lastAngle = 0;
+let lastTime = 0;
+let lastMoveTime = 0;
+
+audioPlayer.addEventListener("loadedmetadata",()=>{
+totalDuration=audioPlayer.duration;
+generateWave();
+});
+
+function generateWave(){
+waveform.innerHTML="";
+for(let i=0;i<totalBars;i++){
+let bar=document.createElement("div");
+bar.className="wave-bar";
+bar.style.height=(Math.random()*40+10)+"px";
+waveform.appendChild(bar);
+}
+}
+
+function updateWave(){
+let bars=document.querySelectorAll(".wave-bar");
+let progress=audioPlayer.currentTime/totalDuration;
+let active=Math.floor(progress*totalBars);
+
+bars.forEach((bar,i)=>{
+if(i<active)bar.classList.add("active");
+else bar.classList.remove("active");
+});
+}
+
+audioPlayer.addEventListener("timeupdate",updateWave);
+
+function getAngle(x,y,element){
+const rect=element.getBoundingClientRect();
+const cx=rect.left+rect.width/2;
+const cy=rect.top+rect.height/2;
+return Math.atan2(y-cy,x-cx)*(180/Math.PI);
+}
+
+crank.addEventListener("mousedown",e=>{
+isDragging=true;
+lastAngle=getAngle(e.clientX,e.clientY,crank);
+lastTime=Date.now();
+lastMoveTime=Date.now();
+});
+
+document.addEventListener("mousemove",e=>{
+if(!isDragging)return;
+
+const currentAngle=getAngle(e.clientX,e.clientY,crank);
+const now=Date.now();
+
+let angleDiff=currentAngle-lastAngle;
+if(angleDiff>180)angleDiff-=360;
+if(angleDiff<-180)angleDiff+=360;
+
+rotation+=angleDiff;
+crank.style.transform=`rotate(${rotation}deg)`;
+
+const timeDiff=(now-lastTime)/1000;
+const speed=Math.abs(angleDiff)/timeDiff;
+
+let playbackRate=speed/200;
+
+if(playbackRate<0.4)playbackRate=0.4;
+if(playbackRate>1)playbackRate=1;
+
+audioPlayer.playbackRate=playbackRate;
+
+if(audioPlayer.paused){
+audioPlayer.play().catch(()=>{});
+}
+
+lastAngle=currentAngle;
+lastTime=now;
+lastMoveTime=now;
+});
+
+document.addEventListener("mouseup",()=>{
+isDragging=false;
+});
+
+setInterval(()=>{
+if(!audioPlayer.paused){
+if(Date.now()-lastMoveTime>500){
+audioPlayer.pause();
+}
+}
+},200);
+
+audioPlayer.addEventListener("ended",()=>{
+statusText.innerHTML="oh iya ini ada video buat kamu juga</p>   <a href=\"https://www.instagram.com/reel/DTxbITIiZBf/?igsh=dnQ4dWJnZGF3eDk=\">ini link nya xixi</a><br>";
+statusText.innerHTML="Putar lagi untuk mendengar 💕";
+});
+</script>
+
+</body>
+</html>
